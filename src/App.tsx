@@ -20,8 +20,8 @@ import { User } from './types';
 const mockCurrentUser: User = {
   id: '1',
   email: 'admin@ngo.org',
-  firstName: 'John',
-  lastName: 'Doe',
+  firstName: 'احمد',
+  lastName: 'محمدی',
   role: {
     id: 'admin',
     name: 'Admin',

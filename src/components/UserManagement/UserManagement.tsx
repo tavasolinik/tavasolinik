@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   Plus, Search, Filter, MoreHorizontal, Edit, Trash2, 
   Eye, UserPlus, Download, Upload, Users
@@ -10,6 +11,7 @@ import UserDetail from './UserDetail';
 import FilterPanel from './FilterPanel';
 
 const UserManagement: React.FC = () => {
+  const { t } = useTranslation();
   const [currentView, setCurrentView] = useState<'list' | 'create' | 'edit' | 'detail'>('list');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -128,7 +130,7 @@ const UserManagement: React.FC = () => {
   };
 
   const handleDeleteUser = (userId: string) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+    if (window.confirm(t('users.confirmDelete'))) {
       setUsers(users.filter(user => user.id !== userId));
     }
   };
@@ -177,32 +179,32 @@ const UserManagement: React.FC = () => {
   });
 
   const renderHeader = () => (
-    <div className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="bg-white border-b border-gray-200 px-6 py-4" dir="rtl">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-reverse space-x-3">
           <Users className="w-8 h-8 text-primary-600" />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-            <p className="text-gray-600">Manage users, roles, and permissions</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t('users.title')}</h1>
+            <p className="text-gray-600">{t('users.subtitle')}</p>
           </div>
         </div>
         
         {currentView === 'list' && (
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-reverse space-x-3">
             <button className="btn btn-secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export
+              <Download className="w-4 h-4 ml-2" />
+              {t('common.export')}
             </button>
             <button className="btn btn-secondary">
-              <Upload className="w-4 h-4 mr-2" />
-              Import
+              <Upload className="w-4 h-4 ml-2" />
+              {t('common.import')}
             </button>
             <button 
               onClick={handleCreateUser}
               className="btn btn-primary"
             >
-              <UserPlus className="w-4 h-4 mr-2" />
-              Add User
+              <UserPlus className="w-4 h-4 ml-2" />
+              {t('users.addUser')}
             </button>
           </div>
         )}
@@ -212,24 +214,24 @@ const UserManagement: React.FC = () => {
 
   const renderSearchAndFilters = () => (
     currentView === 'list' && (
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center space-x-4">
+      <div className="bg-white border-b border-gray-200 px-6 py-4" dir="rtl">
+        <div className="flex items-center space-x-reverse space-x-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search users by name or email..."
+              placeholder={t('users.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="input pl-10"
+              className="input pr-10"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`btn ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
           >
-            <Filter className="w-4 h-4 mr-2" />
-            Filters
+            <Filter className="w-4 h-4 ml-2" />
+            {t('common.filters')}
           </button>
         </div>
         
@@ -241,8 +243,8 @@ const UserManagement: React.FC = () => {
         )}
         
         <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-          <span>{filteredUsers.length} users found</span>
-          <span>Total: {users.length} users</span>
+          <span>{filteredUsers.length} {t('users.usersFound')}</span>
+          <span>{t('common.total')}: {users.length} {t('navigation.userManagement')}</span>
         </div>
       </div>
     )
@@ -283,7 +285,7 @@ const UserManagement: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50" dir="rtl">
       {renderHeader()}
       {renderSearchAndFilters()}
       <div className="p-6">

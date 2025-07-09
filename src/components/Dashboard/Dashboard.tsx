@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   FolderKanban,
@@ -12,88 +13,88 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { User } from '../../types';
-import { fa } from '../../translations/fa';
 
 interface DashboardProps {
   currentUser: User;
 }
 
-// Dummy data for charts
-const monthlyDonationsData = [
-  { month: fa.months.jan, amount: 12500000 },
-  { month: fa.months.feb, amount: 18200000 },
-  { month: fa.months.mar, amount: 15800000 },
-  { month: fa.months.apr, amount: 22100000 },
-  { month: fa.months.may, amount: 19600000 },
-  { month: fa.months.jun, amount: 25300000 },
-];
-
-// Dummy activity data
-const recentActivities = [
-  {
-    id: 1,
-    type: 'user',
-    icon: UserPlus,
-    title: 'احمد محمدی',
-    action: fa.registered,
-    time: '۵ دقیقه پیش',
-    color: 'text-blue-600 bg-blue-100'
-  },
-  {
-    id: 2,
-    type: 'form',
-    icon: FileCheck,
-    title: 'فرم ثبت‌نام داوطلبان',
-    action: fa.submitted,
-    time: '۱۵ دقیقه پیش',
-    color: 'text-green-600 bg-green-100'
-  },
-  {
-    id: 3,
-    type: 'payment',
-    icon: CreditCard,
-    title: 'کمک مالی ۵۰۰,۰۰۰ تومان',
-    action: fa.made,
-    time: '۳۰ دقیقه پیش',
-    color: 'text-orange-600 bg-orange-100'
-  },
-  {
-    id: 4,
-    type: 'project',
-    icon: Calendar,
-    title: 'پروژه کمک به سیل‌زدگان',
-    action: fa.updated,
-    time: '۱ ساعت پیش',
-    color: 'text-purple-600 bg-purple-100'
-  }
-];
-
 const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
+  const { t } = useTranslation();
+
+  // Dummy data for charts
+  const monthlyDonationsData = [
+    { month: t('months.farvardin'), amount: 12500000 },
+    { month: t('months.ordibehesht'), amount: 18200000 },
+    { month: t('months.khordad'), amount: 15800000 },
+    { month: t('months.tir'), amount: 22100000 },
+    { month: t('months.mordad'), amount: 19600000 },
+    { month: t('months.shahrivar'), amount: 25300000 },
+  ];
+
+  // Dummy activity data
+  const recentActivities = [
+    {
+      id: 1,
+      type: 'user',
+      icon: UserPlus,
+      title: 'احمد محمدی',
+      action: t('activities.registered'),
+      time: '۵ دقیقه پیش',
+      color: 'text-blue-600 bg-blue-100'
+    },
+    {
+      id: 2,
+      type: 'form',
+      icon: FileCheck,
+      title: 'فرم ثبت‌نام داوطلبان',
+      action: t('activities.submitted'),
+      time: '۱۵ دقیقه پیش',
+      color: 'text-green-600 bg-green-100'
+    },
+    {
+      id: 3,
+      type: 'payment',
+      icon: CreditCard,
+      title: 'کمک مالی ۵۰۰,۰۰۰ تومان',
+      action: t('activities.made'),
+      time: '۳۰ دقیقه پیش',
+      color: 'text-orange-600 bg-orange-100'
+    },
+    {
+      id: 4,
+      type: 'project',
+      icon: Calendar,
+      title: 'پروژه کمک به سیل‌زدگان',
+      action: t('activities.updated'),
+      time: '۱ ساعت پیش',
+      color: 'text-purple-600 bg-purple-100'
+    }
+  ];
   // Dummy statistics
   const stats = [
     {
-      title: fa.totalUsers,
+      title: t('dashboard.totalUsers'),
       value: '۱,۲۴۳',
       icon: Users,
       change: '+۸%',
       color: 'bg-blue-500'
     },
     {
-      title: fa.activeProjects,
+      title: t('dashboard.activeProjects'),
       value: '۴۲',
       icon: FolderKanban,
       change: '+۱۲%',
       color: 'bg-green-500'
     },
     {
-      title: fa.totalDonations,
+      title: t('dashboard.totalDonations'),
       value: '۴۵۰M تومان',
       icon: HeartHandshake,
       change: '+۱۵%',
       color: 'bg-orange-500'
     },
     {
-      title: fa.monthlyReports,
+      title: t('dashboard.monthlyReports'),
       value: '۲۸',
       icon: FileText,
       change: '+۳%',
@@ -107,10 +108,10 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
         {/* Welcome Section */}
         <div className="bg-gradient-to-l from-primary-600 to-primary-700 rounded-lg p-6 text-white shadow-lg">
           <h1 className="text-3xl font-bold mb-2">
-            {fa.welcomeBack}، {currentUser.firstName}!
+            {t('auth.welcomeBack')}، {currentUser.firstName}!
           </h1>
           <p className="text-primary-100 text-lg">
-            {fa.todayActivity}
+            {t('dashboard.todayActivity')}
           </p>
         </div>
 
@@ -145,9 +146,9 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
             {/* Monthly Donations Chart */}
             <div className="bg-white rounded-lg p-6 shadow-md">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">{fa.monthlyDonations}</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t('dashboard.monthlyDonations')}</h2>
                 <button className="text-primary-600 hover:text-primary-700 text-sm font-medium">
-                  {fa.viewAll}
+                  {t('common.viewAll')}
                 </button>
               </div>
               <div className="h-80">
@@ -165,7 +166,7 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
                       tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
                     />
                     <Tooltip
-                      formatter={(value: number) => [`${value.toLocaleString('fa-IR')} ${fa.currency}`, fa.donationAmount]}
+                      formatter={(value: number) => [`${value.toLocaleString('fa-IR')} ${t('finance.currency')}`, t('dashboard.donationAmount')]}
                       labelStyle={{ fontFamily: 'Vazirmatn, Arial, sans-serif' }}
                       contentStyle={{
                         fontFamily: 'Vazirmatn, Arial, sans-serif',
@@ -178,7 +179,7 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
                       dataKey="amount"
                       fill="#3b82f6"
                       radius={[4, 4, 0, 0]}
-                      name={fa.donationAmount}
+                      name={t('dashboard.donationAmount')}
                     />
                   </BarChart>
                 </ResponsiveContainer>
@@ -189,9 +190,9 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser }) => {
           {/* Recent Activity Sidebar */}
           <div className="bg-white rounded-lg p-6 shadow-md">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900">{fa.recentActivity}</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('dashboard.recentActivity')}</h2>
               <button className="text-primary-600 hover:text-primary-700 text-sm font-medium">
-                {fa.viewAll}
+                {t('common.viewAll')}
               </button>
             </div>
 

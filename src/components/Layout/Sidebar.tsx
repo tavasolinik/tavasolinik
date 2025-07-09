@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   Home, Users, UserCheck, FolderOpen, DollarSign, BarChart3, 
   Calendar, MessageSquare, FileText, Folder, TrendingUp, 
@@ -12,20 +13,20 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-const menuItems: MenuItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'Home', path: '/dashboard', roles: ['Admin', 'IT Manager', 'Project Manager', 'Staff', 'Volunteer', 'Accountant', 'Analyst', 'External Auditor'] },
-  { id: 'users', label: 'User Management', icon: 'Users', path: '/users', roles: ['Admin', 'IT Manager'] },
-  { id: 'stakeholders', label: 'Stakeholders', icon: 'UserCheck', path: '/stakeholders', roles: ['Admin', 'Project Manager', 'Staff'] },
-  { id: 'projects', label: 'Projects & Programs', icon: 'FolderOpen', path: '/projects', roles: ['Admin', 'Project Manager', 'Staff', 'Analyst'] },
-  { id: 'finance', label: 'Finance & Accounting', icon: 'DollarSign', path: '/finance', roles: ['Admin', 'Accountant', 'Project Manager', 'Analyst'] },
-  { id: 'reports', label: 'Reports & Analytics', icon: 'BarChart3', path: '/reports', roles: ['Admin', 'Project Manager', 'Accountant', 'Analyst', 'External Auditor'] },
-  { id: 'meetings', label: 'Meetings & Docs', icon: 'Calendar', path: '/meetings', roles: ['Admin', 'Project Manager', 'Staff'] },
-  { id: 'communication', label: 'Communication', icon: 'MessageSquare', path: '/communication', roles: ['Admin', 'Project Manager', 'Staff'] },
-  { id: 'forms', label: 'Form Builder', icon: 'FileText', path: '/forms', roles: ['Admin', 'Project Manager', 'Staff'] },
-  { id: 'documents', label: 'Document Management', icon: 'Folder', path: '/documents', roles: ['Admin', 'Project Manager', 'Staff', 'Accountant'] },
-  { id: 'performance', label: 'Performance KPIs', icon: 'TrendingUp', path: '/performance', roles: ['Admin', 'Project Manager', 'Analyst'] },
-  { id: 'training', label: 'Training & Education', icon: 'GraduationCap', path: '/training', roles: ['Admin', 'Project Manager', 'Staff', 'Volunteer'] },
-  { id: 'field-visits', label: 'Field Visits', icon: 'MapPin', path: '/field-visits', roles: ['Admin', 'Project Manager', 'Staff'] },
+const getMenuItems = (t: any): MenuItem[] => [
+  { id: 'dashboard', label: t('navigation.dashboard'), icon: 'Home', path: '/dashboard', roles: ['Admin', 'IT Manager', 'Project Manager', 'Staff', 'Volunteer', 'Accountant', 'Analyst', 'External Auditor'] },
+  { id: 'users', label: t('navigation.userManagement'), icon: 'Users', path: '/users', roles: ['Admin', 'IT Manager'] },
+  { id: 'stakeholders', label: t('navigation.stakeholders'), icon: 'UserCheck', path: '/stakeholders', roles: ['Admin', 'Project Manager', 'Staff'] },
+  { id: 'projects', label: t('navigation.projectsAndPrograms'), icon: 'FolderOpen', path: '/projects', roles: ['Admin', 'Project Manager', 'Staff', 'Analyst'] },
+  { id: 'finance', label: t('navigation.financeAndAccounting'), icon: 'DollarSign', path: '/finance', roles: ['Admin', 'Accountant', 'Project Manager', 'Analyst'] },
+  { id: 'reports', label: t('navigation.reportsAndAnalytics'), icon: 'BarChart3', path: '/reports', roles: ['Admin', 'Project Manager', 'Accountant', 'Analyst', 'External Auditor'] },
+  { id: 'meetings', label: t('navigation.meetingsAndDocs'), icon: 'Calendar', path: '/meetings', roles: ['Admin', 'Project Manager', 'Staff'] },
+  { id: 'communication', label: t('navigation.communication'), icon: 'MessageSquare', path: '/communication', roles: ['Admin', 'Project Manager', 'Staff'] },
+  { id: 'forms', label: t('navigation.formBuilder'), icon: 'FileText', path: '/forms', roles: ['Admin', 'Project Manager', 'Staff'] },
+  { id: 'documents', label: t('navigation.documentManagement'), icon: 'Folder', path: '/documents', roles: ['Admin', 'Project Manager', 'Staff', 'Accountant'] },
+  { id: 'performance', label: t('navigation.performanceKPIs'), icon: 'TrendingUp', path: '/performance', roles: ['Admin', 'Project Manager', 'Analyst'] },
+  { id: 'training', label: t('navigation.trainingAndEducation'), icon: 'GraduationCap', path: '/training', roles: ['Admin', 'Project Manager', 'Staff', 'Volunteer'] },
+  { id: 'field-visits', label: t('navigation.fieldVisits'), icon: 'MapPin', path: '/field-visits', roles: ['Admin', 'Project Manager', 'Staff'] },
 ];
 
 const iconMap: Record<string, React.ComponentType<any>> = {
@@ -36,6 +37,9 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 const Sidebar: React.FC<SidebarProps> = ({ currentUser, onClose }) => {
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const menuItems = getMenuItems(t);
 
   const hasAccess = (item: MenuItem): boolean => {
     return item.roles.includes(currentUser.role.name);
@@ -54,21 +58,21 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, onClose }) => {
         onClick={onClose}
         className={`sidebar-link ${isActive ? 'active' : ''}`}
       >
-        <IconComponent className="w-5 h-5 mr-3" />
+        <IconComponent className="w-5 h-5 ml-3" />
         <span className="font-medium">{item.label}</span>
       </Link>
     );
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white" dir="rtl">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div className="flex items-center">
           <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">NGO</span>
           </div>
-          <span className="ml-2 font-semibold text-gray-900">ERP System</span>
+          <span className="mr-2 font-semibold text-gray-900">{t('navigation.systemTitle')}</span>
         </div>
         <button
           onClick={onClose}

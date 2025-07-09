@@ -37,8 +37,9 @@ export default {
         info: '#3b82f6',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        persian: ['Vazirmatn', 'IranYekan', 'Tahoma', 'Arial', 'sans-serif'],
+        sans: ['Vazirmatn', 'IRANSans', 'Tahoma', 'Arial', 'sans-serif'],
+        persian: ['Vazirmatn', 'IRANSans', 'Tahoma', 'Arial', 'sans-serif'],
+        latin: ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -57,13 +58,43 @@ export default {
     },
   },
   plugins: [
-    function({ addUtilities }) {
+    require('tailwindcss-rtl'),
+    function({ addUtilities, theme }) {
       const newUtilities = {
         '.rtl': {
           direction: 'rtl',
         },
         '.ltr': {
           direction: 'ltr',
+        },
+        '.font-persian': {
+          fontFamily: theme('fontFamily.persian'),
+        },
+        '.text-right-rtl': {
+          textAlign: 'right',
+          '[dir="ltr"] &': {
+            textAlign: 'left',
+          },
+        },
+        '.text-left-rtl': {
+          textAlign: 'left',
+          '[dir="ltr"] &': {
+            textAlign: 'right',
+          },
+        },
+        '.mr-auto-rtl': {
+          marginRight: 'auto',
+          '[dir="ltr"] &': {
+            marginRight: '0',
+            marginLeft: 'auto',
+          },
+        },
+        '.ml-auto-rtl': {
+          marginLeft: 'auto',
+          '[dir="ltr"] &': {
+            marginLeft: '0',
+            marginRight: 'auto',
+          },
         },
       }
       addUtilities(newUtilities)
